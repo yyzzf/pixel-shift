@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>换格式 · Pixel Shift — JPG / PNG / WebP / GIF / BMP 本地互转</title>
+  <meta name="description" content="免费开源的 Chrome / Edge 浏览器扩展。在本地把 JPG、PNG、WebP、GIF、BMP 图片互相转换，支持批量、透明填充和 ZIP 下载，无需上传。">
+  <meta name="theme-color" content="#f1f0ea">
+  <link rel="canonical" href="https://yyzzf.github.io/">
+  <link rel="icon" type="image/png" href="assets/icon32.png">
+  <link rel="apple-touch-icon" href="assets/icon128.png">
+  <link rel="preload" as="font" type="font/woff2" href="assets/font/archivo-latin.woff2" crossorigin>
+  <link rel="preload" as="image" href="assets/specimen/specimen.png" fetchpriority="high">
+  <link rel="stylesheet" href="styles.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:url" content="https://yyzzf.github.io/">
+  <meta property="og:title" content="换格式 · Pixel Shift — 图片换个格式，不必离开浏览器">
+  <meta property="og:description" content="JPG、PNG、WebP、GIF、BMP 五种格式任意互转。免费、无权限、完全本地处理的 Chrome / Edge 扩展。">
+  <meta property="og:image" content="https://yyzzf.github.io/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="换格式 · Pixel Shift">
+  <meta name="twitter:description" content="五种图片格式，在浏览器里本地互转。">
+  <meta name="twitter:image" content="https://yyzzf.github.io/assets/og.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "换格式 · Pixel Shift",
+    "operatingSystem": "Chrome 100+, Edge 100+",
+    "applicationCategory": "MultimediaApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+    "description": "在浏览器本地把 JPG、PNG、WebP、GIF、BMP 图片互相转换的扩展。",
+    "url": "https://yyzzf.github.io/"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#top" aria-label="换格式首页">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="4" fill="currentColor"/>
+            <path d="M8 12h13m0 0-3.4-3.4M21 12l-3.4 3.4" stroke="#F1F0EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24 21H11m0 0 3.4-3.4M11 21l3.4 3.4" stroke="#6D82FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-type">
+          <strong>换格式</strong>
+          <small>PIXEL SHIFT</small>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="主导航">
+        <a href="#workbench">工作台</a>
+        <a href="#formats">格式</a>
+        <a href="#install">安装</a>
+        <a href="#faq">问题</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="github-link" href="https://github.com/yyzzf/pixel-shift" target="_blank" rel="noopener">
+          GitHub
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="button button-accent button-small js-download" href="downloads/pixel-shift-1.0.0.zip" download>下载 ZIP</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero shell" id="top">
+      <div class="hero-copy">
+        <p class="hero-meta"><span class="live-dot" aria-hidden="true"></span>浏览器扩展，Chrome / Edge</p>
+        <h1>图片换个格式，<br>不必离开浏览器。</h1>
+        <p class="hero-lead">JPG、PNG、WebP、GIF、BMP 五种格式任意互转。拖进来，选好格式，下载。文件不上传，不加水印。</p>
+
+        <div class="hero-actions">
+          <a class="button button-accent button-large js-download" href="downloads/pixel-shift-1.0.0.zip" download>
+            下载扩展 ZIP
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 15.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="button button-ghost button-large" href="https://github.com/yyzzf/pixel-shift" target="_blank" rel="noopener">
+            查看源码
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <p class="download-meta" id="heroDownloadMeta">
+          <span id="heroVersion">v1.0.0</span>
+          <span class="meta-rule" aria-hidden="true"></span>
+          <span id="heroDownloadSize">约 298 KB</span>
+          <span class="meta-rule" aria-hidden="true"></span>
+          <span>免费，无需账号</span>
+        </p>
+
+        <ul class="hero-points" aria-label="主要特点">
+          <li>本地处理</li>
+          <li>零权限</li>
+          <li>离线可用</li>
+          <li>批量与 ZIP</li>
+        </ul>
+      </div>
+
+      <div class="hero-board-wrap" id="demo">
+        <span class="reg-mark reg-tl" aria-hidden="true"></span>
+        <span class="reg-mark reg-tr" aria-hidden="true"></span>
+        <span class="reg-mark reg-bl" aria-hidden="true"></span>
+        <span class="reg-mark reg-br" aria-hidden="true"></span>
+
+        <div class="hero-board">
+          <div class="board-head">
+            <span class="board-title">格式样本 / 001</span>
+            <span class="board-status"><span class="status-dot" aria-hidden="true"></span>真实编码</span>
+          </div>
+
+          <div class="format-tabs" role="tablist" aria-label="查看不同格式的样本">
+            <button class="format-tab" type="button" role="tab" id="tab-jpg" aria-selected="false" aria-controls="specimenPanel" tabindex="-1" data-format="jpg">
+              <span class="tab-code">JPG</span>
+              <span class="tab-size" data-size-for="jpg">87 KB</span>
+            </button>
+            <button class="format-tab" type="button" role="tab" id="tab-png" aria-selected="true" aria-controls="specimenPanel" tabindex="0" data-format="png">
+              <span class="tab-code">PNG</span>
+              <span class="tab-size" data-size-for="png">45 KB</span>
+            </button>
+            <button class="format-tab" type="button" role="tab" id="tab-webp" aria-selected="false" aria-controls="specimenPanel" tabindex="-1" data-format="webp">
+              <span class="tab-code">WEBP</span>
+              <span class="tab-size" data-size-for="webp">39 KB</span>
+            </button>
+            <button class="format-tab" type="button" role="tab" id="tab-gif" aria-selected="false" aria-controls="specimenPanel" tabindex="-1" data-format="gif">
+              <span class="tab-code">GIF</span>
+              <span class="tab-size" data-size-for="gif">45 KB</span>
+            </button>
+            <button class="format-tab" type="button" role="tab" id="tab-bmp" aria-selected="false" aria-controls="specimenPanel" tabindex="-1" data-format="bmp">
+              <span class="tab-code">BMP</span>
+              <span class="tab-size" data-size-for="bmp">3.1 MB</span>
+            </button>
+          </div>
+
+          <figure class="specimen-panel" id="specimenPanel" role="tabpanel" aria-labelledby="tab-png">
+            <div class="specimen-image">
+              <img id="specimenImage" src="assets/specimen/specimen.png" width="1200" height="900" alt="格式样本，当前为 PNG 编码" draggable="false">
+              <span class="specimen-badge" aria-hidden="true">
+                <span class="badge-label">当前格式</span>
+                <span class="badge-code" id="specimenFormat">PNG</span>
+              </span>
+            </div>
+            <figcaption class="specimen-caption">
+              <span id="formatNote">无损保存，完整保留透明通道。适合截图、图标和线条图。</span>
+              <span class="transparency-tag" id="formatTransparency">透明：完整</span>
+            </figcaption>
+          </figure>
+
+          <p class="board-hint">同一幅 1200 × 900 图形，五种真实编码。点击格式比较体积与透明表现。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-label="扩展概况">
+      <div class="shell trust-grid">
+        <div class="trust-item">
+          <span class="trust-value">100%</span>
+          <span class="trust-label">本地转换</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-value">0</span>
+          <span class="trust-label">扩展权限</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-value">5</span>
+          <span class="trust-label">种图片格式</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-value">ZIP</span>
+          <span class="trust-label">批量带走</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="workbench">
+      <div class="section-head">
+        <h2>一屏完成，<br>批量也不费劲。</h2>
+        <p>目标格式、质量、透明填充和 GIF 抖动都在左侧。放进一批图片，转换完逐张下载，或者打包带走。</p>
+      </div>
+
+      <div class="workbench-grid">
+        <figure class="app-figure">
+          <a class="app-shot-link" href="assets/app-shot.png" target="_blank" rel="noopener" aria-label="打开扩展界面大图">
+            <img src="assets/app-shot.png" width="1280" height="1180" alt="换格式扩展界面：左侧选择输出格式，右侧是批量转换队列" loading="lazy">
+          </a>
+          <figcaption>实际界面。一次处理五张图片，输出 WebP。</figcaption>
+        </figure>
+
+        <div class="feature-list">
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="8" height="8" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="13" y="13" width="8" height="8" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M15 6h5m0 0-2-2m2 2-2 2M9 18H4m0 0 2-2m-2 2 2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <div>
+              <h3>五种格式互转</h3>
+              <p>JPG、PNG、WebP、GIF、BMP 双向转换。输入输出都支持这五种格式。</p>
+            </div>
+          </article>
+
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M3 9h18M9 3v18" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="3" y="3" width="6" height="6" fill="currentColor"/>
+                <rect x="15" y="15" width="6" height="6" fill="currentColor"/>
+              </svg>
+            </span>
+            <div>
+              <h3>透明区域，你说了算</h3>
+              <p>PNG、WebP、GIF 保留透明；转成 JPG 或 BMP 时，用白、黑或自定义颜色填平。</p>
+            </div>
+          </article>
+
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="7" width="13" height="14" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M7 3h14v14" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M8 14h3v3H8z" fill="currentColor"/>
+              </svg>
+            </span>
+            <div>
+              <h3>批量与 ZIP</h3>
+              <p>一次添加多张图片，查看转换前后的体积，再一次打包下载。</p>
+            </div>
+          </article>
+
+          <article class="feature">
+            <span class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="9" cy="7" r="2.2" fill="#F1F0EA" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="15" cy="17" r="2.2" fill="#F1F0EA" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </span>
+            <div>
+              <h3>质量与抖动</h3>
+              <p>JPG、WebP 质量可调；GIF 可开关抖动，在体积和渐变之间取舍。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="formats">
+      <div class="section-head">
+        <h2>选格式，<br>看这一张表。</h2>
+        <p>每种格式都有取舍。下表按扩展的实际输出整理，帮助你在画质、体积和兼容性之间做选择。</p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="format-table">
+          <caption class="sr-only">五种图片格式的透明、压缩、适用场景与输出设置对比</caption>
+          <thead>
+            <tr>
+              <th scope="col">格式</th>
+              <th scope="col">透明通道</th>
+              <th scope="col">压缩方式</th>
+              <th scope="col">适合</th>
+              <th scope="col">本工具输出</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><span class="format-code format-jpg">JPG</span></th>
+              <td data-label="透明通道">不支持，自动填平</td>
+              <td data-label="压缩方式">有损，质量可调</td>
+              <td data-label="适合">照片、分享</td>
+              <td data-label="本工具输出">.jpg，质量 10–100</td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="format-code format-png">PNG</span></th>
+              <td data-label="透明通道">完整 Alpha</td>
+              <td data-label="压缩方式">无损</td>
+              <td data-label="适合">截图、图标、线条图</td>
+              <td data-label="本工具输出">.png，无需质量设置</td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="format-code format-webp">WEBP</span></th>
+              <td data-label="透明通道">完整 Alpha</td>
+              <td data-label="压缩方式">有损，质量可调</td>
+              <td data-label="适合">网页、现代应用</td>
+              <td data-label="本工具输出">.webp，质量 10–100</td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="format-code format-gif">GIF</span></th>
+              <td data-label="透明通道">二值透明</td>
+              <td data-label="压缩方式">索引色，最多 256 色</td>
+              <td data-label="适合">简单图形、表情</td>
+              <td data-label="本工具输出">.gif，静态，可抖动</td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="format-code format-bmp">BMP</span></th>
+              <td data-label="透明通道">不支持，自动填平</td>
+              <td data-label="压缩方式">无压缩</td>
+              <td data-label="适合">兼容旧软件</td>
+              <td data-label="本工具输出">.bmp，24 位，体积最大</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">体积不是唯一的判断标准：这张样本里 PNG 就比 JPG 更小。选择取决于图片内容是照片、线条图，还是需要兼容某个旧软件。</p>
+    </section>
+
+    <section class="local-section" id="local">
+      <div class="shell local-grid">
+        <div class="local-copy">
+          <h2>没有上传按钮，<br>因为没有服务器。</h2>
+          <p class="local-lead">图片从磁盘读入内存，在画布上重新编码，然后直接交回浏览器下载。整个过程不需要网络，也不经过任何第三方。</p>
+          <dl class="local-points">
+            <div>
+              <dt>不申请权限</dt>
+              <dd>manifest 中没有 permissions，也没有 host permissions。扩展不读取浏览记录，不访问你打开的网页。</dd>
+            </div>
+            <div>
+              <dt>不发网络请求</dt>
+              <dd>字体、图标和代码全部随 ZIP 打包；页面不加载 CDN、统计脚本或远程字体。</dd>
+            </div>
+            <div>
+              <dt>关闭标签页即结束</dt>
+              <dd>转换结果只保存在当前标签页的内存里。页面关闭，临时数据随之释放。</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="local-stamp" aria-hidden="true">
+          <div class="stamp-inner">
+            <span class="stamp-kicker">本地处理 / LOCAL</span>
+            <span class="stamp-word">LOCAL</span>
+            <span class="stamp-rule"></span>
+            <span class="stamp-foot">NO UPLOAD<br>NO TRACKING</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="install-band" id="install">
+      <div class="shell install-grid">
+        <div class="install-main">
+          <h2>下载，解压，加载。</h2>
+          <p class="install-lead">扩展没有上架应用商店，需要以未打包扩展的方式安装。只需一次；之后从工具栏图标打开。</p>
+
+          <div class="install-download">
+            <a class="button button-accent button-large js-download" href="downloads/pixel-shift-1.0.0.zip" download>
+              下载扩展 ZIP
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 15.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <span class="install-size" id="installSize">pixel-shift-1.0.0.zip · 约 298 KB</span>
+          </div>
+
+          <ol class="steps">
+            <li>
+              <span class="step-num">01</span>
+              <div>
+                <h3>下载并解压</h3>
+                <p>把 ZIP 解压到一个固定的文件夹。加载扩展后，这个文件夹需要保留。</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-num">02</span>
+              <div>
+                <h3>打开扩展页</h3>
+                <p>Chrome 访问 <code>chrome://extensions</code>，Edge 访问 <code>edge://extensions</code>，打开开发者模式。</p>
+              </div>
+            </li>
+            <li>
+              <span class="step-num">03</span>
+              <div>
+                <h3>加载文件夹</h3>
+                <p>点击“加载已解压的扩展程序”，选择解压后的文件夹。点击工具栏上的图标开始转换。</p>
+              </div>
+            </li>
+          </ol>
+
+          <p class="install-note">浏览器会提示这是开发者模式扩展，这是正常现象。扩展本身不申请任何权限。</p>
+        </div>
+
+        <aside class="package-card" aria-label="安装包信息">
+          <div class="package-head">
+            <span>安装包</span>
+            <span id="zipVersionLabel">v1.0.0</span>
+          </div>
+          <dl class="package-specs">
+            <div><dt>适用浏览器</dt><dd>Chrome 100+ / Edge 100+</dd></div>
+            <div><dt>文件大小</dt><dd id="zipSizeCard">约 298 KB</dd></div>
+            <div><dt>扩展权限</dt><dd>无</dd></div>
+            <div><dt>更新方式</dt><dd>下载新 ZIP，重新加载</dd></div>
+          </dl>
+
+          <div class="hash-block">
+            <div class="hash-head">
+              <span>SHA-256 校验值</span>
+              <button class="copy-button" type="button" id="copySha" disabled>复制</button>
+            </div>
+            <code id="zipSha">加载中…</code>
+            <p class="hash-status" id="hashStatus" role="status" aria-live="polite"></p>
+          </div>
+
+          <a class="package-link" href="https://github.com/yyzzf/pixel-shift" target="_blank" rel="noopener">
+            在 GitHub 查看源码
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M5 11 11 5M6 5h5v5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section shell" id="faq">
+      <div class="faq-grid">
+        <div class="faq-head">
+          <h2>还有几个<br>小问题。</h2>
+          <p>如果这里没有答案，可以在 GitHub 提 issue。</p>
+        </div>
+
+        <div class="faq-list">
+          <details open>
+            <summary>为什么安装时要开启开发者模式？</summary>
+            <p>目前提供的是未签名的 ZIP，没有上架 Chrome 应用商店或 Edge 加载项商店。浏览器要求通过开发者模式加载这类扩展。加载时的提示是正常的；扩展本身不申请任何权限。</p>
+          </details>
+          <details>
+            <summary>会把我的图片上传吗？</summary>
+            <p>不会。扩展没有服务器，也没有网络请求。图片只在当前标签页的内存中解码和编码，下载通过浏览器本地的 Blob 完成。</p>
+          </details>
+          <details>
+            <summary>支持动图吗？</summary>
+            <p>GIF 和动画 WebP 只读取第一帧，输出始终是静态图片。GIF 输出使用 256 色调色板，透明是二值的。</p>
+          </details>
+          <details>
+            <summary>转换后会掉画质吗？</summary>
+            <p>取决于目标格式。PNG 无损；JPG 和 WebP 是有损压缩，可以调质量；GIF 最多 256 色；BMP 不压缩但会把透明区域填平。格式本身的取舍无法避免。</p>
+          </details>
+          <details>
+            <summary>图片有大小限制吗？</summary>
+            <p>单张图片上限是 4800 万像素（例如 8000 × 6000）。超过这个尺寸会提示错误，避免浏览器内存耗尽。超大图片的 GIF 编码可能需要一点时间。</p>
+          </details>
+          <details>
+            <summary>支持哪些浏览器？</summary>
+            <p>Chrome 和 Edge（Chromium 100 及以上）。其他 Chromium 浏览器理论上也能加载，但目前只在 Chrome / Edge 上做过完整测试。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="#top" aria-label="回到顶部">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <rect width="32" height="32" rx="4" fill="currentColor"/>
+              <path d="M8 12h13m0 0-3.4-3.4M21 12l-3.4 3.4" stroke="#F1F0EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M24 21H11m0 0 3.4-3.4M11 21l3.4 3.4" stroke="#6D82FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="brand-type">
+            <strong>换格式</strong>
+            <small>PIXEL SHIFT</small>
+          </span>
+        </a>
+        <p>图片换个格式，不必离开浏览器。</p>
+      </div>
+
+      <nav class="footer-links" aria-label="页脚导航">
+        <a href="https://github.com/yyzzf/pixel-shift" target="_blank" rel="noopener">GitHub 源码</a>
+        <a class="js-download" href="downloads/pixel-shift-1.0.0.zip" download>下载扩展</a>
+        <a href="assets/font/OFL.txt" target="_blank" rel="noopener">字体许可</a>
+        <a href="#top">回到顶部</a>
+      </nav>
+
+      <div class="footer-meta">
+        <span>v1.0.0 · 2026</span>
+        <span>本地处理，无遥测。</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>

@@ -11,6 +11,9 @@
     "test:extension": "node tests/extension.mjs",
     "test:all": "node tests/unit.mjs && node tests/e2e.mjs && node tests/extension.mjs",
     "icons": "python -I scripts/make-icons.py",
-    "package": "node scripts/package.mjs"
+    "package": "node scripts/package.mjs",
+    "site:assets": "npm run package && python -I scripts/make-site-assets.py",
+    "site:test": "node tests/site.mjs",
+    "site:deploy": "node scripts/deploy-site.mjs"
   }
 }

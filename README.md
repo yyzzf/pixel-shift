@@ -2,6 +2,8 @@
 
 一个在浏览器本地转换图片格式的扩展，兼容 Chrome 和 Edge。支持 **JPG、PNG、WebP、GIF、BMP** 五种格式任意互转。文件不会上传，扩展不申请任何浏览器权限，也不依赖网络。
 
+官网与 ZIP 下载：[https://yyzzf.github.io/](https://yyzzf.github.io/)
+
 ![换格式界面](assets/screenshot.png)
 
 ## 功能
@@ -92,9 +94,32 @@ src/
 assets/
   icons/                   16 / 32 / 48 / 128 图标
   fonts/                   Archivo 字体及 OFL 许可证
-tests/                     像素级测试、浏览器端到端测试、扩展冒烟测试
-scripts/                   图标生成、发布打包
+site/                      静态官网源码，部署到 yyzzf.github.io
+tests/                     像素级测试、浏览器端到端测试、扩展与官网测试
+scripts/                   图标、发布包、官网素材与部署脚本
 ```
+
+## 官网
+
+官网是一个纯静态单页，源码在 [site/](site/)，线上地址为 [https://yyzzf.github.io/](https://yyzzf.github.io/)。页面包含可交互的格式样本、格式速查、安装步骤和 ZIP 下载，不加载任何外部脚本或字体。
+
+```bash
+# 重新生成官网素材（样本图、OG 图），并打包、复制最新 ZIP 和 latest.json 到 site/downloads
+npm run site:assets
+
+# 本地打开官网并运行站点测试（截图输出到 tests/out/site/）
+npm run site:test
+
+# 构建 ZIP，克隆并推送 site/ 内容到 yyzzf.github.io
+npm run site:deploy
+
+# 如果目标 Pages 仓库已有内容，部署脚本会拒绝覆盖
+npm run site:deploy -- --force
+```
+
+部署脚本默认使用 `git@github.com:yyzzf/yyzzf.github.io.git` 和 `main` 分支，可通过 `PAGES_REMOTE`、`PAGES_BRANCH` 覆盖。`site/downloads/` 里的 ZIP 和 `latest.json` 是构建产物，不提交到主源码仓库；部署时由脚本生成并复制。
+
+`site/assets/specimen/` 中的五份样本是用同一张 1200 × 900 图形真实编码得到的，分别展示 JPG、PNG、WebP、GIF、BMP 的体积与透明差异。修改样本后运行 `npm run site:assets` 会同时更新页面读取的 `sizes.json`。
 
 ## 开发与测试
 
@@ -126,6 +151,11 @@ npm run package
 
 # 重新生成图标
 npm run icons
+
+# 官网素材、站点测试与部署
+npm run site:assets
+npm run site:test
+npm run site:deploy
 ```
 
 环境变量：
@@ -140,6 +170,7 @@ npm run icons
 - 单元测试：`tests/out/`
 - 端到端截图和转换结果：`tests/out/e2e/`
 - 扩展测试结果：`tests/out/extension/`
+- 官网截图和下载包校验：`tests/out/site/`
 
 ## 字体许可
 
