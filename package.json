@@ -1,0 +1,16 @@
+{
+  "name": "pixel-shift",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local image format converter for Chrome and Edge",
+  "scripts": {
+    "fixtures": "python -I tests/make-fixtures.py",
+    "test": "node tests/unit.mjs",
+    "test:e2e": "node tests/e2e.mjs",
+    "test:extension": "node tests/extension.mjs",
+    "test:all": "node tests/unit.mjs && node tests/e2e.mjs && node tests/extension.mjs",
+    "icons": "python -I scripts/make-icons.py",
+    "package": "node scripts/package.mjs"
+  }
+}

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>换格式 · Pixel Shift</title>
+  <meta name="description" content="在浏览器本地把 JPG、PNG、WebP、GIF、BMP 图片互相转换。无需上传。">
+  <link rel="icon" type="image/png" href="../assets/icons/icon32.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="masthead">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="4" fill="currentColor"/>
+            <path d="M8 12h13m0 0-3.4-3.4M21 12l-3.4 3.4" stroke="#F1F0EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24 21H11m0 0 3.4-3.4M11 21l3.4 3.4" stroke="#6D82FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-type">
+          <strong>换格式</strong>
+          <small>PIXEL SHIFT</small>
+        </span>
+      </div>
+      <p class="local-note"><span class="local-dot" aria-hidden="true"></span>本地处理，文件不会上传</p>
+    </header>
+
+    <main class="layout">
+      <aside class="controls" aria-label="转换设置">
+        <div class="controls-head">
+          <h1>转成什么格式？</h1>
+          <p>选一个目标格式，再把图片放进来。</p>
+        </div>
+
+        <div class="format-list" role="radiogroup" aria-label="目标格式">
+          <button class="format-option" type="button" role="radio" aria-checked="false" tabindex="-1" data-format="jpeg">
+            <span class="format-swatch" aria-hidden="true"></span>
+            <span class="format-code">JPG</span>
+            <span class="format-desc">照片，体积更小</span>
+            <span class="format-mark" aria-hidden="true"></span>
+          </button>
+          <button class="format-option" type="button" role="radio" aria-checked="false" tabindex="-1" data-format="png">
+            <span class="format-swatch" aria-hidden="true"></span>
+            <span class="format-code">PNG</span>
+            <span class="format-desc">无损，支持透明</span>
+            <span class="format-mark" aria-hidden="true"></span>
+          </button>
+          <button class="format-option" type="button" role="radio" aria-checked="false" tabindex="-1" data-format="webp">
+            <span class="format-swatch" aria-hidden="true"></span>
+            <span class="format-code">WEBP</span>
+            <span class="format-desc">高压缩，支持透明</span>
+            <span class="format-mark" aria-hidden="true"></span>
+          </button>
+          <button class="format-option" type="button" role="radio" aria-checked="false" tabindex="-1" data-format="gif">
+            <span class="format-swatch" aria-hidden="true"></span>
+            <span class="format-code">GIF</span>
+            <span class="format-desc">256 色，支持透明</span>
+            <span class="format-mark" aria-hidden="true"></span>
+          </button>
+          <button class="format-option" type="button" role="radio" aria-checked="false" tabindex="-1" data-format="bmp">
+            <span class="format-swatch" aria-hidden="true"></span>
+            <span class="format-code">BMP</span>
+            <span class="format-desc">无压缩，兼容性好</span>
+            <span class="format-mark" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <p class="format-tip" id="formatTip"></p>
+
+        <section class="settings" aria-label="更多设置">
+          <div class="setting" id="qualitySetting">
+            <div class="setting-head">
+              <label for="quality">质量</label>
+              <output class="setting-value" id="qualityValue" for="quality">90</output>
+            </div>
+            <input class="range" type="range" id="quality" min="10" max="100" step="1" value="90" aria-describedby="qualityNote">
+            <p class="setting-note" id="qualityNote">数值越高，画质越好，文件也越大。</p>
+          </div>
+
+          <div class="setting" id="backgroundSetting">
+            <div class="setting-head">
+              <span class="setting-label">透明区域填充</span>
+            </div>
+            <div class="swatches" role="radiogroup" aria-label="透明区域填充颜色">
+              <button class="swatch swatch-white is-active" type="button" role="radio" aria-checked="true" data-bg="#ffffff" aria-label="白色"></button>
+              <button class="swatch swatch-black" type="button" role="radio" aria-checked="false" data-bg="#000000" aria-label="黑色"></button>
+              <label class="swatch swatch-custom" title="自定义颜色">
+                <input type="color" id="customBackground" value="#ffffff" aria-label="自定义填充颜色">
+                <span class="swatch-custom-mark" aria-hidden="true"></span>
+              </label>
+            </div>
+            <p class="setting-note">JPG 和 BMP 没有透明通道，透明区域会用这个颜色填满。</p>
+          </div>
+
+          <div class="setting" id="gifSetting">
+            <label class="check">
+              <input type="checkbox" id="dither" checked>
+              <span>抖动</span>
+            </label>
+            <p class="setting-note">用细密的点阵换取更平滑的渐变，适合照片。</p>
+          </div>
+
+          <p class="setting setting-plain" id="plainSetting" hidden>无损格式，不需要调整质量。</p>
+        </section>
+
+        <p class="rail-foot">动图（GIF / 动画 WebP）只转换第一帧。图片的 EXIF、ICC 等元数据不会保留。</p>
+      </aside>
+
+      <section class="workbench" id="workbench" aria-label="图片工作区">
+        <div class="drop-zone" id="dropZone">
+          <span class="registration registration-tl" aria-hidden="true"></span>
+          <span class="registration registration-tr" aria-hidden="true"></span>
+          <span class="registration registration-bl" aria-hidden="true"></span>
+          <span class="registration registration-br" aria-hidden="true"></span>
+
+          <div class="drop-copy">
+            <h2 id="dropTitle">把图片拖进来</h2>
+            <p id="dropDescription">支持 JPG、PNG、WebP、GIF、BMP。可一次添加多张，或直接粘贴。</p>
+            <div class="drop-actions">
+              <button class="button button-accent" id="chooseButton" type="button">选择文件</button>
+              <span class="paste-hint"><kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>V</kbd> 粘贴</span>
+            </div>
+          </div>
+
+          <div class="drop-stamp" aria-hidden="true">
+            <span class="stamp-label">输出</span>
+            <span class="stamp-code" id="targetStamp">WEBP</span>
+            <span class="stamp-desc" id="stampDesc">高压缩，支持透明</span>
+          </div>
+
+          <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,image/jpeg,image/png,image/webp,image/gif,image/bmp" multiple hidden>
+        </div>
+
+        <section class="queue-section" id="queueSection" aria-label="待转换图片" hidden>
+          <div class="queue-head">
+            <div>
+              <h2>工作区</h2>
+              <p id="queueSummary">还没有图片</p>
+            </div>
+            <button class="text-button" id="clearButton" type="button">清空</button>
+          </div>
+          <ul class="queue" id="queue"></ul>
+        </section>
+
+        <p class="status-line" id="statusLine" role="status" aria-live="polite" hidden></p>
+
+        <div class="action-bar">
+          <div class="progress-track" id="progressTrack" hidden>
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <p class="action-note" id="actionNote">图片只在你的浏览器里处理。</p>
+          <div class="action-buttons">
+            <button class="button button-ghost" id="zipButton" type="button" disabled>打包下载 ZIP</button>
+            <button class="button button-accent" id="convertButton" type="button" disabled>开始转换</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot">
+      <span>PIXEL SHIFT 1.0</span>
+      <span>JPG / PNG / WebP / GIF / BMP</span>
+      <span>仅在本机运行</span>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="alert" hidden></div>
+
+  <template id="rowTemplate">
+    <li class="queue-item is-pending">
+      <div class="thumb"><img alt="" loading="lazy"></div>
+      <div class="file-info">
+        <p class="file-name"></p>
+        <p class="file-meta">
+          <span class="file-dimensions">读取中…</span>
+          <span class="meta-sep" aria-hidden="true">，</span>
+          <span class="file-size"></span>
+        </p>
+        <p class="file-error" hidden></p>
+      </div>
+      <div class="file-track">
+        <p class="file-conversion">
+          <span class="from-ext"></span>
+          <span class="conversion-arrow" aria-hidden="true">→</span>
+          <span class="to-ext"></span>
+        </p>
+        <p class="file-result">
+          <span class="result-size"></span>
+          <span class="result-state">待转换</span>
+        </p>
+      </div>
+      <div class="file-actions">
+        <a class="icon-button download-button" download hidden aria-label="下载转换后的图片">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 15.5h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <button class="icon-button remove-button" type="button" aria-label="移除这张图片">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </li>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
